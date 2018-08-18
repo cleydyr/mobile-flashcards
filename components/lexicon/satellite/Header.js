@@ -1,55 +1,93 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
+import Icons from '../core/Icons';
 
 export default class Header extends React.Component {
 	render() {
+		const {title, leftButtons, rightButtons} = this.props;
+		const iconSize = 18;
+		const barHeight = 56;
+		const fillColor = 'white';
+
 		return (
 			<View style={{
 				flexDirection: 'row',
 				height: 56,
 				backgroundColor: '#272833',
-				marginTop: 28,
 				alignItems: 'center',
+				//Header container
 			}}>
 				<View style={{
 					flexDirection: 'row',
 					flex: 1,
-					backgroundColor: 'red',
+					//Left
 				}}>
-					<View style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-						height: 32,
-						width: 32,
-						alignSelf: 'flex-start',
-						backgroundColor: 'purple',
-					}}>
-						<Text style={{
-							color: 'white',
-						}}>
-							{'<'}
-						</Text>
-					</View>
+					{
+						leftButtons.map((button, index) => (
+							<TouchableOpacity key={index} onPress={button.onPress}>
+								<View style={{
+									justifyContent: 'center',
+									alignItems: 'center',
+									height: 32,
+									width: 32,
+									marginRight: 16,
+								}}>
+									<Icons
+										id={button.icon}
+										size={iconSize}
+										fill={fillColor}
+									/>
+								</View>
+							</TouchableOpacity>
+						))
+					}
+
 				</View>
+
 				<View style={{
+					alignItems: 'center',
+					justifyContent: 'center',
+					height: 27,
 					flex: 1,
-					backgroundColor: 'blue',
+					//center
 				}}>
 					<Text style={{
 						fontSize: 18,
-						color: 'white',
+						color: fillColor,
 						fontWeight: '600',
 					}}>
-						Header
+						{title}
 					</Text>
 				</View>
-				<View style={{
-					flex: 1,
-					backgroundColor: 'green',
-				}}>
 
-				</View>
+				<View style={{
+					flexDirection: 'row',
+					flex: 1,
+					justifyContent: 'flex-end',
+					//right
+				}}>
+					{
+						rightButtons.map((button, index) => (
+							<TouchableOpacity key={index} onPress={button.onPress}>
+								<View style={{
+									justifyContent: 'center',
+									alignItems: 'center',
+									height: 32,
+									width: 32,
+									flexDirection: 'row',
+									marginLeft: 16,
+								}}>
+									<Icons
+										size={iconSize}
+										fill={fillColor}
+										id={button.icon}
+									/>
+								</View>
+							</TouchableOpacity>
+						))
+					}
 			</View>
+		</View>
 		);
 	}
 }
