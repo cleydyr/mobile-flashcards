@@ -42,20 +42,10 @@ const DecksView = ({navigation}) => (
 	<ScrollView>
 		<Header
 			title='My Decks'
-			leftButtons={[
-				{
-					icon: 'angle-left',
-				},
-			]}
+			leftButtons={[]}
 			rightButtons={[
 				{
-					icon: 'cog',
-				},
-				{
 					icon: 'plus',
-				},
-				{
-					icon: 'play',
 				},
 			]}/>
 		<View style={styles.container} >
