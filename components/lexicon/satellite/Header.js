@@ -6,7 +6,6 @@ export default class Header extends React.Component {
 	render() {
 		const {title, leftButtons, rightButtons} = this.props;
 		const iconSize = 18;
-		const barHeight = 56;
 		const fillColor = 'white';
 
 		return (
