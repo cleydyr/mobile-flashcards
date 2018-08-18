@@ -4,8 +4,6 @@ import {
 	ScrollView,
 	View,
 	TouchableOpacity,
-	Text,
-	StatusBar,
 } from 'react-native';
 import Card from './components/lexicon/core/Card';
 import {createStackNavigator} from 'react-navigation';
@@ -42,6 +40,24 @@ const decks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(() => [
 
 const DecksView = ({navigation}) => (
 	<ScrollView>
+		<Header
+			title='My Decks'
+			leftButtons={[
+				{
+					icon: 'angle-left',
+				},
+			]}
+			rightButtons={[
+				{
+					icon: 'cog',
+				},
+				{
+					icon: 'plus',
+				},
+				{
+					icon: 'play',
+				},
+			]}/>
 		<View style={styles.container} >
 			{
 				decks.map((deck, index) =>
@@ -60,18 +76,36 @@ const DecksView = ({navigation}) => (
 );
 
 class DeckDetail extends React.Component {
-	static navigationOptions = ({navigation}) => {
-		const deck = navigation.state.params;
-		return {
-			title: deck.title,
-			header: () => <Header />,
-		}
-	}
-
 	render() {
 		const {navigation} = this.props;
+		const deck = navigation.state.params;
+		const goBack = () => navigation.goBack();
+
 		return (
-			<View><Text>Deck</Text></View>
+			<View>
+				<Header
+					title={deck.title}
+					leftButtons={[
+						{
+							icon: 'angle-left',
+							onPress: goBack,
+						},
+					]}
+					rightButtons={[
+						{
+							icon: 'cog',
+							onPress: goBack,
+						},
+						{
+							icon: 'plus',
+							onPress: goBack
+						},
+						{
+							icon: 'play',
+							onPress: goBack
+						},
+					]}/>
+			</View>
 		);
 	}
 }
@@ -79,9 +113,15 @@ class DeckDetail extends React.Component {
 const Stack = createStackNavigator({
 	Home: {
 		screen: DecksView,
+		navigationOptions: {
+      header: null
+    }
 	},
 	DeckDetail: {
 		screen: DeckDetail,
+		navigationOptions: {
+      header: null
+    }
 	}
 });
 
@@ -96,10 +136,9 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: '#F1F2F5',
 		justifyContent: 'center',
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		padding: 15,
   },
 });
