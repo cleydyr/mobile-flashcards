@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, Text,} from 'react-native';
 import Badge from './Badge';
+import {WHITE} from '../foundation/Color';
 
 export default class Card extends React.Component {
 	render() {
 		const {title, created, image} = this.props;
 		return (
-			<View style={{elevation: 5, backgroundColor: 'white'}}>
+			<View style={{elevation: 5, backgroundColor: WHITE}}>
 				<View style={{width: 288, height: 160, backgroundColor: image, justifyContent: 'flex-end'}}>
 					<View style={{margin: 16}}><Badge number={17}></Badge></View>
 				</View>
