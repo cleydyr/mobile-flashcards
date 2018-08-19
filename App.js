@@ -8,6 +8,7 @@ import {
 import Card from './components/lexicon/core/Card';
 import {createStackNavigator} from 'react-navigation';
 import Header from './components/lexicon/satellite/Header';
+import ManagementToolbar from './components/lexicon/core/toolbars/ManagementToolbar';
 
 const decks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(() => [
 	{
@@ -39,15 +40,9 @@ const decks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(() => [
 	acc.concat(cur), []);
 
 const DecksView = ({navigation}) => (
+	<React.Fragment>
+	<ManagementToolbar/>
 	<ScrollView>
-		<Header
-			title='My Decks'
-			leftButtons={[]}
-			rightButtons={[
-				{
-					icon: 'plus',
-				},
-			]}/>
 		<View style={styles.container} >
 			{
 				decks.map((deck, index) =>
@@ -63,6 +58,7 @@ const DecksView = ({navigation}) => (
 			}
 		</View>
 	</ScrollView>
+	</React.Fragment>
 );
 
 class DeckDetail extends React.Component {
@@ -104,13 +100,19 @@ const Stack = createStackNavigator({
 	Home: {
 		screen: DecksView,
 		navigationOptions: {
-      header: null
+      headerStyle: {
+				height: 0,
+				backgroundColor: '#272833',
+			},
     }
 	},
 	DeckDetail: {
 		screen: DeckDetail,
 		navigationOptions: {
-      header: null
+      headerStyle: {
+				height: 0,
+				backgroundColor: '#272833',
+			},
     }
 	}
 });
