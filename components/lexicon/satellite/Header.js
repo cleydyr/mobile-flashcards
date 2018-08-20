@@ -22,7 +22,7 @@ export default class Header extends React.Component {
 					//Left
 				}}>
 					{
-						leftButtons.map((button, index) => (
+						leftButtons && leftButtons.map((button, index) => (
 							<TouchableOpacity key={index} onPress={button.onPress}>
 								<View style={{
 									justifyContent: 'center',
@@ -66,7 +66,7 @@ export default class Header extends React.Component {
 					//right
 				}}>
 					{
-						rightButtons.map((button, index) => (
+						rightButtons && rightButtons.map((button, index) => (
 							<TouchableOpacity key={index} onPress={button.onPress}>
 								<View style={{
 									justifyContent: 'center',
