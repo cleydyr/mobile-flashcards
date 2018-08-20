@@ -9,6 +9,10 @@ import Card from './components/lexicon/core/Card';
 import {createStackNavigator} from 'react-navigation';
 import Header from './components/lexicon/satellite/Header';
 import ManagementToolbar from './components/lexicon/core/toolbars/ManagementToolbar';
+import {
+	MAIN,
+	LIGHT,
+} from './components/lexicon/foundation/Color';
 
 const decks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(() => [
 	{
@@ -102,7 +106,7 @@ const Stack = createStackNavigator({
 		navigationOptions: {
       headerStyle: {
 				height: 0,
-				backgroundColor: '#272833',
+				backgroundColor: MAIN,
 			},
     }
 	},
@@ -111,7 +115,7 @@ const Stack = createStackNavigator({
 		navigationOptions: {
       headerStyle: {
 				height: 0,
-				backgroundColor: '#272833',
+				backgroundColor: MAIN,
 			},
     }
 	}
@@ -128,7 +132,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-		backgroundColor: '#F1F2F5',
+		backgroundColor: LIGHT,
 		justifyContent: 'center',
 		flexDirection: 'row',
 		flexWrap: 'wrap',

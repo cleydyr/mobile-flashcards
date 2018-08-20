@@ -1,7 +1,11 @@
 import React from 'react';
 import {View, Text,} from 'react-native';
 import Badge from './Badge';
-import {WHITE} from '../foundation/Color';
+import {
+	WHITE,
+	MAIN,
+	MAIN_L28_D5,
+} from '../foundation/Color';
 
 export default class Card extends React.Component {
 	render() {
@@ -13,8 +17,8 @@ export default class Card extends React.Component {
 				</View>
 				<View style={{width: 288, height: 94}} >
 					<View style={{marginLeft: 16, marginTop: 12}} >
-						<View style={{height: 21}}><Text style={{fontWeight: '600', color: '#272833', fontSize: 14}}>{title}</Text></View>
-						<View style={{height: 21}}><Text style={{fontWeight: '400', color: '#6B6C7E', fontSize: 14}}>Created {created}</Text></View>
+						<View style={{height: 21}}><Text style={{fontWeight: '600', color: MAIN, fontSize: 14}}>{title}</Text></View>
+						<View style={{height: 21}}><Text style={{fontWeight: '400', color: MAIN_L28_D5, fontSize: 14}}>Created {created}</Text></View>
 					</View>
 				</View>
 			</View>
