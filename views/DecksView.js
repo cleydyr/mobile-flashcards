@@ -20,6 +20,7 @@ import {
 import {
 	DECK_DETAIL,
  } from './StackedViews';
+import Header from '../components/lexicon/satellite/Header';
 
 export default class DecksView extends React.Component {
 	constructor() {
@@ -31,13 +32,16 @@ export default class DecksView extends React.Component {
 		}
 	}
 
-	componentDidMount() {
-		getDecks()
-			.then(decks => this.setState({
-				decks,
-			}))
-			.then(this.hideLoading);
+	async componentDidMount() {
 		this.showLoading();
+
+		const decks = await getDecks();
+
+		this.setState({
+			decks,
+		});
+
+		this.hideLoading();
 	}
 
 	showLoading = () => {
@@ -84,6 +88,7 @@ export default class DecksView extends React.Component {
 
 		return (
 			<React.Fragment>
+				<Header title="My decks"/>
 				<ManagementToolbar
 					onPlusButtonPress={this.toogleModalVisibility}
 				/>
