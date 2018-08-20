@@ -11,7 +11,7 @@ export default class DeckDetail extends React.Component {
 		return (
 			<View>
 				<Header
-					title={deck.title}
+					title={deck.name}
 					leftButtons={[
 						{
 							icon: 'angle-left',
