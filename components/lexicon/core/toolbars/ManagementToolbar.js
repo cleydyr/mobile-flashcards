@@ -7,7 +7,14 @@ import {
 	TextInput,
 } from 'react-native';
 import Icons from '../Icons';
-import {WHITE, PRIMARY, MAIN} from '../../foundation/Color'
+import {
+	WHITE,
+	PRIMARY,
+	MAIN,
+	PRIMARY_L45,
+	PRIMARY_L23,
+	MAIN_L28_D5,
+} from '../../foundation/Color'
 
 const flexDirection = 'row';
 const flex = 1;
@@ -32,15 +39,16 @@ export default class ManagementToolbar extends React.Component {
 				style={{
 					flex: 1,
 					height: 40,
-					backgroundColor: '#F0F5FF',
+					backgroundColor: PRIMARY_L45,
+					borderColor: PRIMARY_L23,
 				}}
-				underlineColorAndroid='#F0F5FF'
+				underlineColorAndroid={PRIMARY_L45}
 				onChangeText={this.updateSearchText}
 				value={this.state.searchText}
 				autoFocus={true}
 			/>
 			<View style={{
-				backgroundColor: '#F0F5FF',
+				backgroundColor: PRIMARY_L45,
 				height: 40,
 				justifyContent,
 				paddingRight: 8,
@@ -49,7 +57,7 @@ export default class ManagementToolbar extends React.Component {
 						onPress={this.clearSearchText}
 				>
 					<Icons
-								fill='#6B6C7E'
+								fill={MAIN_L28_D5}
 								id='times'
 								size={16}
 							/>
