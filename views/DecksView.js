@@ -71,7 +71,7 @@ export default class DecksView extends React.Component {
 		const {decks} = this.state;
 
 		return (
-			<View>
+			<React.Fragment>
 				<ManagementToolbar
 					onPlusButtonPress={this.toogleModalVisibility}
 				/>
@@ -119,7 +119,7 @@ export default class DecksView extends React.Component {
 						}
 					</View>
 				</ScrollView>
-			</View>
+			</React.Fragment>
 		);
 	}
 }
