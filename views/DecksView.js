@@ -58,6 +58,10 @@ export default class DecksView extends React.Component {
 	saveNewDeck = (name) => {
 		createDeck({name})
 			.then(this.toogleModalVisibility)
+			.then(getDecks)
+			.then(decks => this.setState({
+				decks,
+			}))
 			.then(this.hideLoading);
 		this.showLoading();
 	}
