@@ -17,6 +17,9 @@ import {
 	createDeck,
 	getDecks,
 } from '../api/DeckService';
+import {
+	DECK_DETAIL,
+ } from './StackedViews';
 
 export default class DecksView extends React.Component {
 	constructor() {
@@ -55,15 +58,24 @@ export default class DecksView extends React.Component {
 		}))
 	}
 
-	saveNewDeck = (name) => {
-		createDeck({name})
-			.then(this.toogleModalVisibility)
-			.then(getDecks)
-			.then(decks => this.setState({
-				decks,
-			}))
-			.then(this.hideLoading);
+	saveNewDeck = async (name) => {
+		const {navigation} = this.props;
+
 		this.showLoading();
+
+		const newDeck = await createDeck({name});
+
+		this.toogleModalVisibility();
+
+		const decks = await getDecks();
+
+		this.setState({
+			decks,
+		});
+
+		navigation.navigate(DECK_DETAIL, newDeck);
+
+		this.hideLoading();
 	}
 
 	render() {
@@ -108,7 +120,7 @@ export default class DecksView extends React.Component {
 						{
 							decks.map((deck, index) =>
 								<TouchableOpacity key={index} onPress={() => navigation.navigate(
-										'DeckDetail',
+										DECK_DETAIL,
 										deck
 								)}>
 									<View key={index} style={{marginBottom: 12, marginTop: 12, marginLeft: 12, marginRight: 12}}>
