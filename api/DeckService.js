@@ -30,3 +30,11 @@ export function getDecks() {
 		)
 	);
 }
+
+export function deleteAll() {
+	return new Promise(resolve =>
+		cardDB.erase_db(data =>
+			console.log(data) || resolve(data)
+		)
+	);
+}
