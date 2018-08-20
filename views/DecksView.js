@@ -5,49 +5,48 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	StyleSheet,
+	ActivityIndicator,
 } from 'react-native';
 import NewDeckForm from './NewDeckForm';
 import ManagementToolbar from '../components/lexicon/core/toolbars/ManagementToolbar';
 import Card from '../components/lexicon/core/Card';
 import {
-	LIGHT,
+	LIGHT, MAIN,
 } from '../components/lexicon/foundation/Color';
-
-const decks = Array(1).fill().map(() => [
-	{
-		title: 'Hungarian',
-		created: '7 days ago',
-		image: 'salmon'
-	},
-	{
-		title: 'React',
-		created: '7 days ago',
-		image: 'purple'
-	},
-	{
-		title: 'Leadership',
-		created: '7 days ago',
-		image: 'mediumaquamarine'
-	},
-	{
-		title: 'Learning',
-		created: '7 days ago',
-		image: 'honeydew'
-	},
-	{
-		title: 'Fitness',
-		created: '7 days ago',
-		image: 'azure'
-	},
-]).reduce((acc, cur) =>
-	acc.concat(cur), []);
+import {
+	createDeck,
+	getDecks,
+} from '../api/DeckService';
 
 export default class DecksView extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			modalVisible: false,
+			decks: [],
+			loading: false,
 		}
+	}
+
+	componentDidMount() {
+		getDecks()
+			.then(decks => this.setState({
+				decks,
+			}))
+			.then(this.hideLoading);
+		this.showLoading();
+	}
+
+	showLoading = () => {
+		this.setState({
+			loading: true,
+		})
+	}
+
+	hideLoading = () => {
+		this.setState({
+			loading: false,
+		})
 	}
 
 	toogleModalVisibility = () => {
@@ -56,13 +55,17 @@ export default class DecksView extends React.Component {
 		}))
 	}
 
-	saveNewDeck = (data) => {
-		//TODO: Handle save new deck action
-		this.toogleModalVisibility();
+	saveNewDeck = (name) => {
+		createDeck({name})
+			.then(this.toogleModalVisibility)
+			.then(this.hideLoading);
+		this.showLoading();
 	}
 
 	render() {
 		const {navigation} = this.props;
+		const {decks} = this.state;
+
 		return (
 			<View>
 				<ManagementToolbar
@@ -79,6 +82,23 @@ export default class DecksView extends React.Component {
 						onSave={this.saveNewDeck}
 					/>
 				</Modal>
+				<Modal
+					animationType="fade"
+					transparent={true}
+					visible={this.state.loading}
+					onRequestClose={() => {}}
+				>
+					<View style={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						flex: 1,
+					}}>
+						<ActivityIndicator
+							size='large'
+							color={MAIN}
+						/>
+					</View>
+				</Modal>
 				<ScrollView>
 					<View style={styles.container} >
 						{
@@ -88,7 +108,7 @@ export default class DecksView extends React.Component {
 										deck
 								)}>
 									<View key={index} style={{marginBottom: 12, marginTop: 12, marginLeft: 12, marginRight: 12}}>
-											<Card	{...deck}	/>
+											<Card	{...deck} title={deck.name}	/>
 									</View>
 								</TouchableOpacity>
 							)
