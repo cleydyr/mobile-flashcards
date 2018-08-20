@@ -4,6 +4,8 @@ import {
 	ScrollView,
 	View,
 	TouchableOpacity,
+	Modal,
+	Text,
 } from 'react-native';
 import Card from './components/lexicon/core/Card';
 import {createStackNavigator} from 'react-navigation';
@@ -13,6 +15,14 @@ import {
 	MAIN,
 	LIGHT,
 } from './components/lexicon/foundation/Color';
+import NewDeckForm from './views/NewDeckForm';
+
+const defaultNavigationOptions = {
+	headerStyle: {
+		height: 0,
+		backgroundColor: MAIN,
+	},
+};
 
 const decks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(() => [
 	{
@@ -43,27 +53,63 @@ const decks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(() => [
 ]).reduce((acc, cur) =>
 	acc.concat(cur), []);
 
-const DecksView = ({navigation}) => (
-	<React.Fragment>
-	<ManagementToolbar/>
-	<ScrollView>
-		<View style={styles.container} >
-			{
-				decks.map((deck, index) =>
-					<TouchableOpacity key={index} onPress={() => navigation.navigate(
-							'DeckDetail',
-							deck
-					)}>
-						<View key={index} style={{marginBottom: 12, marginTop: 12, marginLeft: 12, marginRight: 12}}>
-								<Card	{...deck}	/>
-						</View>
-					</TouchableOpacity>
-				)
-			}
-		</View>
-	</ScrollView>
-	</React.Fragment>
-);
+class DecksView extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			modalVisible: false,
+		}
+	}
+
+	toogleModalVisibility = () => {
+		this.setState(prevState => ({
+			modalVisible: !prevState.modalVisible,
+		}))
+	}
+
+	saveNewDeck = (data) => {
+		//TODO: Handle save new deck action
+		this.toogleModalVisibility();
+	}
+
+	render() {
+		const {navigation} = this.props;
+		return (
+			<View>
+				<ManagementToolbar
+					onPlusButtonPress={this.toogleModalVisibility}
+				/>
+				<Modal
+					animationType="fade"
+					transparent={false}
+					visible={this.state.modalVisible}
+					onRequestClose={this.toogleModalVisibility}
+				>
+					<NewDeckForm
+						onCancel={this.toogleModalVisibility}
+						onSave={this.saveNewDeck}
+					/>
+				</Modal>
+				<ScrollView>
+					<View style={styles.container} >
+						{
+							decks.map((deck, index) =>
+								<TouchableOpacity key={index} onPress={() => navigation.navigate(
+										'DeckDetail',
+										deck
+								)}>
+									<View key={index} style={{marginBottom: 12, marginTop: 12, marginLeft: 12, marginRight: 12}}>
+											<Card	{...deck}	/>
+									</View>
+								</TouchableOpacity>
+							)
+						}
+					</View>
+				</ScrollView>
+			</View>
+		);
+	}
+}
 
 class DeckDetail extends React.Component {
 	render() {
@@ -103,21 +149,15 @@ class DeckDetail extends React.Component {
 const Stack = createStackNavigator({
 	Home: {
 		screen: DecksView,
-		navigationOptions: {
-      headerStyle: {
-				height: 0,
-				backgroundColor: MAIN,
-			},
-    }
+		navigationOptions: defaultNavigationOptions,
 	},
 	DeckDetail: {
 		screen: DeckDetail,
-		navigationOptions: {
-      headerStyle: {
-				height: 0,
-				backgroundColor: MAIN,
-			},
-    }
+		navigationOptions: defaultNavigationOptions,
+	},
+	NewDeckForm: {
+		screen: NewDeckForm,
+		navigationOptions: defaultNavigationOptions,
 	}
 });
 

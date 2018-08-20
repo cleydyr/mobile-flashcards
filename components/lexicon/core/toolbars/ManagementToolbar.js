@@ -122,7 +122,9 @@ export default class ManagementToolbar extends React.Component {
 						</TouchableOpacity>
 					</View>
 					<View style={[styles.rightButton, {backgroundColor: PRIMARY}]}>
-						<TouchableOpacity>
+						<TouchableOpacity
+							onPress={this.props.onPlusButtonPress}
+						>
 								<Icons
 									fill={WHITE}
 									id='plus'
