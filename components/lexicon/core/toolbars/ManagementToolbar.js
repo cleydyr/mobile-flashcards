@@ -34,7 +34,13 @@ export default class ManagementToolbar extends React.Component {
 	}
 
 	SearchToolbarContent = () => (
-		<React.Fragment>
+		<View style={{
+			flexDirection: 'row',
+			borderColor: PRIMARY_L23,
+			borderWidth: 1,
+			borderRadius: 2,
+		}}
+		>
 			<TextInput
 				style={{
 					flex: 1,
@@ -63,7 +69,7 @@ export default class ManagementToolbar extends React.Component {
 							/>
 				</TouchableOpacity>
 			</View>
-		</React.Fragment>
+		</View>
 	);
 
 	DefaultToolbarContent = () => (
