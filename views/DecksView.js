@@ -6,6 +6,7 @@ import {
 	ScrollView,
 	StyleSheet,
 	ActivityIndicator,
+	Text,
 } from 'react-native';
 import NewDeckForm from './NewDeckForm';
 import ManagementToolbar from '../components/lexicon/core/toolbars/ManagementToolbar';
@@ -21,6 +22,9 @@ import {
 	DECK_DETAIL,
  } from './StackedViews';
 import Header from '../components/lexicon/satellite/Header';
+import { FlatList } from 'react-native-gesture-handler';
+import ListItem from '../components/lexicon/core/ListItem';
+import { getCards } from '../api/CardService';
 
 export default class DecksView extends React.Component {
 	constructor() {
@@ -32,14 +36,21 @@ export default class DecksView extends React.Component {
 		}
 	}
 
+	fetchDecksAndCardsCount = async () => {
+		const [decks, cards] = await Promise.all([
+			getDecks(),
+			getCards(),
+		]);
+
+		this.setState({
+			decks: decks.map(deck => ({...deck, cardsCount: cards.filter(card => card.deckId === deck.id).length})),
+		});
+	}
+
 	async componentDidMount() {
 		this.showLoading();
 
-		const decks = await getDecks();
-
-		this.setState({
-			decks,
-		});
+		this.fetchDecksAndCardsCount();
 
 		this.hideLoading();
 	}
@@ -62,6 +73,12 @@ export default class DecksView extends React.Component {
 		}))
 	}
 
+	toogleActive = id => {
+		this.setState(({decks}) => ({
+			decks: decks.map(deck => deck.id === id ? {...deck, selected: !deck.selected} : deck)
+		}));
+	}
+
 	saveNewDeck = async (name) => {
 		const {navigation} = this.props;
 
@@ -71,11 +88,7 @@ export default class DecksView extends React.Component {
 
 		this.toogleModalVisibility();
 
-		const decks = await getDecks();
-
-		this.setState({
-			decks,
-		});
+		this.fetchDecksAndCardsCount();
 
 		navigation.navigate(DECK_DETAIL, newDeck);
 
@@ -84,7 +97,7 @@ export default class DecksView extends React.Component {
 
 	render() {
 		const {navigation} = this.props;
-		const {decks} = this.state;
+		const {decks, modalVisible, loading} = this.state;
 
 		return (
 			<React.Fragment>
@@ -95,7 +108,7 @@ export default class DecksView extends React.Component {
 				<Modal
 					animationType="slide"
 					transparent={false}
-					visible={this.state.modalVisible}
+					visible={modalVisible}
 					onRequestClose={this.toogleModalVisibility}
 				>
 					<NewDeckForm
@@ -106,7 +119,7 @@ export default class DecksView extends React.Component {
 				<Modal
 					animationType="fade"
 					transparent={true}
-					visible={this.state.loading}
+					visible={loading}
 					onRequestClose={() => {}}
 				>
 					<View style={{
@@ -121,20 +134,24 @@ export default class DecksView extends React.Component {
 					</View>
 				</Modal>
 				<ScrollView>
-					<View style={styles.container} >
-						{
-							decks.map((deck, index) =>
-								<TouchableOpacity key={index} onPress={() => navigation.navigate(
+					<FlatList
+						data={decks}
+						renderItem={
+							({item}) =>
+								<TouchableOpacity onPress={() => navigation.navigate(
 										DECK_DETAIL,
-										deck
+										item
 								)}>
-									<View key={index} style={{marginBottom: 12, marginTop: 12, marginLeft: 12, marginRight: 12}}>
-											<Card	{...deck} title={deck.name}	/>
-									</View>
+									<ListItem
+										active={item.selected}
+										title={item.name}
+										description={`${item.cardsCount} cards`}
+										onValueChange={() => this.toogleActive(item.id)}
+									/>
 								</TouchableOpacity>
-							)
 						}
-					</View>
+						keyExtractor={item => item.id}
+					/>
 				</ScrollView>
 			</React.Fragment>
 		);
