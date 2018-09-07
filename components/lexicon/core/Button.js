@@ -18,7 +18,7 @@ export default class Button extends React.Component {
 		return (
 			<TouchableOpacity
 				{...this.props}
-				style={[this.props.style, styles.default, styles[type]]}
+				style={[styles.default, styles[type], this.props.style]}
 			>
 				{
 					React.Children.map(children, child => (

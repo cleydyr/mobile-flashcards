@@ -6,11 +6,8 @@ import {
 	ScrollView,
 	StyleSheet,
 	ActivityIndicator,
-	Text,
 } from 'react-native';
 import NewDeckForm from './NewDeckForm';
-import ManagementToolbar from '../components/lexicon/core/toolbars/ManagementToolbar';
-import Card from '../components/lexicon/core/Card';
 import {
 	LIGHT, MAIN,
 } from '../components/lexicon/foundation/Color';
@@ -102,9 +99,6 @@ export default class DecksView extends React.Component {
 		return (
 			<React.Fragment>
 				<Header title="My decks"/>
-				<ManagementToolbar
-					onPlusButtonPress={this.toogleModalVisibility}
-				/>
 				<Modal
 					animationType="slide"
 					transparent={false}

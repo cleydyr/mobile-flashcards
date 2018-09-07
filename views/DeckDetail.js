@@ -14,6 +14,7 @@ import {
 } from '../components/lexicon/foundation/Color';
 import { createCard, getCards } from '../api/CardService';
 import ListItem from '../components/lexicon/core/ListItem';
+import { QUIZ } from './StackedViews';
 
 export default class DeckDetail extends React.Component {
 	constructor() {
@@ -58,6 +59,13 @@ export default class DeckDetail extends React.Component {
 		}))
 	}
 
+	startQuiz = () => {
+		const {navigation} = this.props;
+		const {cards} = this.state;
+
+		navigation.navigate(QUIZ, cards);
+	}
+
 	saveNewCard = async ({question, answer}) => {
 		const {navigation} = this.props;
 		const {id} = navigation.state.params;
@@ -95,16 +103,12 @@ export default class DeckDetail extends React.Component {
 					]}
 					rightButtons={[
 						{
-							icon: 'cog',
-							onPress: goBack,
-						},
-						{
 							icon: 'plus',
 							onPress: this.toogleModalVisibility
 						},
 						{
 							icon: 'play',
-							onPress: goBack
+							onPress: this.startQuiz,
 						},
 					]}/>
 				<Modal

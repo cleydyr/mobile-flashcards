@@ -2,6 +2,7 @@ import {createStackNavigator} from 'react-navigation';
 import DecksView from './DecksView';
 import DeckDetail from './DeckDetail';
 import { MAIN } from '../components/lexicon/foundation/Color';
+import Quiz from './Quiz';
 
 const defaultNavigationOptions = {
 	headerStyle: {
@@ -12,6 +13,7 @@ const defaultNavigationOptions = {
 
 export const HOME = 'Home';
 export const DECK_DETAIL = 'DeckDetail';
+export const QUIZ = 'Quiz';
 
 const views = [
 	{
@@ -21,6 +23,10 @@ const views = [
 	{
 		name: DECK_DETAIL,
 		component: DeckDetail,
+	},
+	{
+		name: QUIZ,
+		component: Quiz,
 	},
 ];
 
