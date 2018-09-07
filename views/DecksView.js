@@ -2,14 +2,13 @@ import React from 'react';
 import {
 	View,
 	Modal,
-	TouchableOpacity,
-	ScrollView,
+	Text,
 	StyleSheet,
 	ActivityIndicator,
 } from 'react-native';
 import NewDeckForm from './NewDeckForm';
 import {
-	LIGHT, MAIN,
+	LIGHT, MAIN, WHITE,
 } from '../components/lexicon/foundation/Color';
 import {
 	createDeck,
@@ -19,9 +18,8 @@ import {
 	DECK_DETAIL,
  } from './StackedViews';
 import Header from '../components/lexicon/satellite/Header';
-import { FlatList } from 'react-native-gesture-handler';
-import ListItem from '../components/lexicon/core/ListItem';
 import { getCards } from '../api/CardService';
+import { Deck } from '../components/lexicon/core/Deck';
 
 export default class DecksView extends React.Component {
 	constructor() {
@@ -92,6 +90,39 @@ export default class DecksView extends React.Component {
 		this.hideLoading();
 	}
 
+	NewDeckModalForm = ({modalVisible, onRequestClose, onCancel, onSave}) => (
+		<Modal
+					animationType="slide"
+					transparent={false}
+					visible={modalVisible}
+					onRequestClose={onRequestClose}
+				>
+					<NewDeckForm
+						onCancel={onCancel}
+						onSave={onSave}
+					/>
+		</Modal>
+	)
+
+	ActivityIndicatorModal = ({visible}) => (
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={visible}
+			onRequestClose={() => {}}
+		>
+			<View style={{
+				justifyContent: 'center',
+				alignItems: 'center',
+				flex: 1,
+			}}>
+				<ActivityIndicator
+					size='large'
+					color={MAIN}
+				/>
+			</View>
+		</Modal>
+	)
 	render() {
 		const {navigation} = this.props;
 		const {decks, modalVisible, loading} = this.state;
@@ -99,35 +130,8 @@ export default class DecksView extends React.Component {
 		return (
 			<React.Fragment>
 				<Header title="My decks"/>
-				<Modal
-					animationType="slide"
-					transparent={false}
-					visible={modalVisible}
-					onRequestClose={this.toogleModalVisibility}
-				>
-					<NewDeckForm
-						onCancel={this.toogleModalVisibility}
-						onSave={this.saveNewDeck}
-					/>
-				</Modal>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					visible={loading}
-					onRequestClose={() => {}}
-				>
-					<View style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-						flex: 1,
-					}}>
-						<ActivityIndicator
-							size='large'
-							color={MAIN}
-						/>
-					</View>
-				</Modal>
-				<ScrollView>
+
+				{/* <ScrollView>
 					<FlatList
 						data={decks}
 						renderItem={
@@ -146,7 +150,24 @@ export default class DecksView extends React.Component {
 						}
 						keyExtractor={item => item.id}
 					/>
-				</ScrollView>
+				</ScrollView> */}
+				<View style={{
+					justifyContent: 'space-around',
+					alignItems: 'center',
+					flex: 1,
+				}}>
+					<Deck filled>
+						<Text style={{fontSize: 40}}>Olá mundo!</Text>
+					</Deck>
+				</View>
+				<this.NewDeckModalForm
+					modalVisible={modalVisible}
+					onRequestClose={this.toogleModalVisibility}
+					onCancel={this.toogleModalVisibility}
+					onSave={this.saveNewDeck}
+				/>
+
+				<this.ActivityIndicatorModal visible={loading} />
 			</React.Fragment>
 		);
 	}
