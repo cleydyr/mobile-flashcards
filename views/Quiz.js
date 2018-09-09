@@ -46,7 +46,9 @@ export default class Quiz extends React.Component {
 		}))
 
 	static getRemainingCardsMessage = (remainingCardsCount) =>
-		`${remainingCardsCount ? remainingCardsCount : 'No'} ${remainingCardsCount > 1 || remainingCardsCount == 0 ? 'cards' : 'card'} remaining`;
+			`${remainingCardsCount ? remainingCardsCount : 'No'} ` +
+			`${remainingCardsCount > 1 || remainingCardsCount === 0 ? 'cards' : 'card'}` +
+			' remaining';
 
 	getScoreMessage = () =>
 		`Your score is ${100.0*this.state.correctAnswers/this.state.cards.length}%`
