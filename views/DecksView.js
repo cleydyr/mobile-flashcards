@@ -126,7 +126,7 @@ export default class DecksView extends React.Component {
 		</Modal>
 	);
 
-	ContentView = ({decks, navigation, onValueChange}) => (
+	ContentView = ({decks, navigation}) => (
 		<ScrollView>
 			<FlatList
 				data={decks}
