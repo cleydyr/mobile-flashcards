@@ -134,7 +134,13 @@ export default class DecksView extends React.Component {
 
 		return (
 			<React.Fragment>
-				<Header title="My decks"/>
+				<Header
+					title="My decks"
+					rightButtons={[{
+						icon: 'plus',
+						onPress: this.toogleModalVisibility
+					}]}
+				/>
 
 				<this.ContentView
 					navigation={navigation}
