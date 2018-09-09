@@ -7,12 +7,20 @@ import {
 import Header from '../components/lexicon/satellite/Header';
 import Button from '../components/lexicon/core/Button';
 import { MAIN, WHITE } from '../components/lexicon/foundation/Color';
+import { clearLocalNotification, setLocalNotification } from '../api/NotificationService';
 
 const QUESTION = 'question';
 const ANSWER = 'answer';
 
 export default class Quiz extends React.Component {
 	state = {}
+
+	async componentDidUpdate() {
+		if (!this.isOngoingQuiz()) {
+			await clearLocalNotification();
+			setLocalNotification();
+		}
+	}
 
 	static getDerivedStateFromProps(props) {
 		const cards = props.navigation.state.params;
