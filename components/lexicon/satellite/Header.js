@@ -4,7 +4,7 @@ import Icons from '../core/Icons';
 
 export default class Header extends React.Component {
 	render() {
-		const {title, leftButtons, rightButtons} = this.props;
+		const {title, subtitle, leftButtons, rightButtons} = this.props;
 		const iconSize = 18;
 		const fillColor = 'white';
 
@@ -50,13 +50,28 @@ export default class Header extends React.Component {
 					flex: 1,
 					//center
 				}}>
-					<Text style={{
-						fontSize: 18,
-						color: fillColor,
-						fontWeight: '600',
-					}}>
+					<Text
+						style={{
+							fontSize: 18,
+							color: fillColor,
+							fontWeight: '600',
+						}}
+						numberOfLines={1}
+					>
 						{title}
 					</Text>
+					{
+						subtitle &&
+							<Text
+								style={{
+									fontSize: 14,
+									color: fillColor,
+								}}
+								numberOfLines={1}
+							>
+								{subtitle}
+							</Text>
+					}
 				</View>
 
 				<View style={{
