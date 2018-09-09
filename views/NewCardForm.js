@@ -50,6 +50,7 @@ export default class NewCardForm extends React.Component {
 						marginBottom: 4,
 					}}>
 						<TextInput
+							autoFocus
 							onChangeText={this.updateCardQuestion}
 							value={question}
 						/>

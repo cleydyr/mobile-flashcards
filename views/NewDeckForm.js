@@ -43,6 +43,7 @@ export default class NewDeckForm extends React.Component {
 						marginBottom: 4,
 					}}>
 						<TextInput
+							autoFocus
 							onChangeText={this.updateDeckName}
 							value={deckName}
 						/>
