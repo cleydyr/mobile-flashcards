@@ -5,11 +5,10 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	StyleSheet,
-	ActivityIndicator,
 } from 'react-native';
 import NewDeckForm from './NewDeckForm';
 import {
-	LIGHT, MAIN,
+	LIGHT,
 } from '../components/lexicon/foundation/Color';
 import {
 	createDeck,
@@ -22,6 +21,7 @@ import Header from '../components/lexicon/satellite/Header';
 import { FlatList } from 'react-native-gesture-handler';
 import ListItem from '../components/lexicon/core/ListItem';
 import { getCards } from '../api/CardService';
+import ActivityIndicatorModal from '../components/ActivityIndicatorModal';
 
 export default class DecksView extends React.Component {
 	constructor() {
@@ -106,26 +106,6 @@ export default class DecksView extends React.Component {
 		</Modal>
 	);
 
-	ActivityIndicatorModal = ({loading}) => (
-		<Modal
-			animationType="fade"
-			transparent={true}
-			visible={loading}
-			onRequestClose={() => {}}
-		>
-			<View style={{
-				justifyContent: 'center',
-				alignItems: 'center',
-				flex: 1,
-			}}>
-				<ActivityIndicator
-					size='large'
-					color={MAIN}
-				/>
-			</View>
-		</Modal>
-	);
-
 	ContentView = ({decks, navigation}) => (
 		<ScrollView>
 			<FlatList
@@ -167,7 +147,7 @@ export default class DecksView extends React.Component {
 					onSave={this.saveNewDeck}
 					modalVisible={modalVisible}
 				/>
-				<this.ActivityIndicatorModal loading={loading}/>
+				<ActivityIndicatorModal loading={loading}/>
 			</React.Fragment>
 		);
 	}
