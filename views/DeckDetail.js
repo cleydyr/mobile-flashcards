@@ -94,7 +94,8 @@ export default class DeckDetail extends React.Component {
 		return (
 			<View>
 				<Header
-					title={`${deck.name}(${cards.length ? cards.length : 'No'} ${cards.length > 1 || cards.length == 0 ? 'cards' : 'card'})`}
+					title={deck.name}
+					subtitle={`${cards.length ? cards.length : 'No'} ${cards.length > 1 || cards.length == 0 ? 'cards' : 'card'}`}
 					leftButtons={[
 						{
 							icon: 'angle-left',
