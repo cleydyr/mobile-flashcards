@@ -90,6 +90,15 @@ export default class DeckDetail extends React.Component {
 		const deck = navigation.state.params;
 		const {loading, modalVisible, cards} = this.state;
 		const goBack = () => navigation.goBack();
+		const playButton = {
+			icon: 'play',
+			onPress: this.startQuiz,
+		};
+		const plusButton = {
+			icon: 'plus',
+			onPress: this.toogleModalVisibility
+		};
+		const rightButtons = cards.length > 0 ? [plusButton, playButton] : [plusButton];
 
 		return (
 			<View>
@@ -102,16 +111,7 @@ export default class DeckDetail extends React.Component {
 							onPress: goBack,
 						},
 					]}
-					rightButtons={[
-						{
-							icon: 'plus',
-							onPress: this.toogleModalVisibility
-						},
-						{
-							icon: 'play',
-							onPress: this.startQuiz,
-						},
-					]}/>
+					rightButtons={rightButtons}/>
 				<Modal
 					animationType="slide"
 					transparent={false}
