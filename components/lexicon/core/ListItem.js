@@ -20,11 +20,13 @@ export default class ListItem extends React.Component {
 			<View style={[styles.listGroupItem, active && {backgroundColor: PRIMARY_L45}]}>
 				<View style={styles.autoFitCol}>
 					<View style={styles.customControl}>
-						<CheckBox
-							onValueChange={onValueChange}
-							value={active}
-							hitSlop={{top: 4, bottom: 4, left: 4, right: 4}}
-						/>
+						{
+							onValueChange && <CheckBox
+								onValueChange={onValueChange}
+								value={active}
+								hitSlop={{top: 4, bottom: 4, left: 4, right: 4}}
+							/>
+						}
 					</View>
 				</View>
 				<View style={[styles.autoFitCol, styles.autoFitColExpand]}>
