@@ -92,6 +92,62 @@ export default class DecksView extends React.Component {
 		this.hideLoading();
 	}
 
+	NewDeckFormModal = ({onRequestClose, onCancel, onSave, modalVisible}) => (
+		<Modal
+			animationType="slide"
+			transparent={false}
+			visible={modalVisible}
+			onRequestClose={onRequestClose}
+		>
+			<NewDeckForm
+				onCancel={onCancel}
+				onSave={onSave}
+			/>
+		</Modal>
+	);
+
+	ActivityIndicatorModal = ({loading}) => (
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={loading}
+			onRequestClose={() => {}}
+		>
+			<View style={{
+				justifyContent: 'center',
+				alignItems: 'center',
+				flex: 1,
+			}}>
+				<ActivityIndicator
+					size='large'
+					color={MAIN}
+				/>
+			</View>
+		</Modal>
+	);
+
+	ContentView = ({decks, navigation, onValueChange}) => (
+		<ScrollView>
+			<FlatList
+				data={decks}
+				renderItem={
+					({item}) =>
+						<TouchableOpacity onPress={() => navigation.navigate(
+								DECK_DETAIL,
+								item
+						)}>
+							<ListItem
+								active={item.selected}
+								title={item.name}
+								description={`${item.cardsCount} cards`}
+							/>
+						</TouchableOpacity>
+				}
+				keyExtractor={item => item.id}
+			/>
+		</ScrollView>
+	);
+
 	render() {
 		const {navigation} = this.props;
 		const {decks, modalVisible, loading} = this.state;
@@ -99,54 +155,19 @@ export default class DecksView extends React.Component {
 		return (
 			<React.Fragment>
 				<Header title="My decks"/>
-				<Modal
-					animationType="slide"
-					transparent={false}
-					visible={modalVisible}
+
+				<this.ContentView
+					navigation={navigation}
+					decks={decks}
+				/>
+
+				<this.NewDeckFormModal
 					onRequestClose={this.toogleModalVisibility}
-				>
-					<NewDeckForm
-						onCancel={this.toogleModalVisibility}
-						onSave={this.saveNewDeck}
-					/>
-				</Modal>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					visible={loading}
-					onRequestClose={() => {}}
-				>
-					<View style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-						flex: 1,
-					}}>
-						<ActivityIndicator
-							size='large'
-							color={MAIN}
-						/>
-					</View>
-				</Modal>
-				<ScrollView>
-					<FlatList
-						data={decks}
-						renderItem={
-							({item}) =>
-								<TouchableOpacity onPress={() => navigation.navigate(
-										DECK_DETAIL,
-										item
-								)}>
-									<ListItem
-										active={item.selected}
-										title={item.name}
-										description={`${item.cardsCount} cards`}
-										onValueChange={() => this.toogleActive(item.id)}
-									/>
-								</TouchableOpacity>
-						}
-						keyExtractor={item => item.id}
-					/>
-				</ScrollView>
+					onCancel={this.toogleModalVisibility}
+					onSave={this.saveNewDeck}
+					modalVisible={modalVisible}
+				/>
+				<this.ActivityIndicatorModal loading={loading}/>
 			</React.Fragment>
 		);
 	}
