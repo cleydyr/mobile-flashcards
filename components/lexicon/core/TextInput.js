@@ -9,21 +9,23 @@ import {
 	LIGHT,
 	PRIMARY_L23,
 	MAIN,
+	WHITE,
 } from '../foundation/Color';
 
 export default class TextInput extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			style: styles.textInputDefault,
+			style: styles.transparentTextInput,
 		}
 	}
 	makeActive = () => {
-		this.setState({style: styles.textInputActive});
+		// this.setState({style: styles.textInputActive});
+		this.setState({style: styles.transparentTextInput});
 	}
 
 	makeDefault = () => {
-		this.setState({style: styles.textInputDefault});
+		this.setState({style: styles.transparentTextInput});
 	}
 
 	render() {
@@ -33,13 +35,18 @@ export default class TextInput extends React.Component {
 				style={[styles.textInput, this.state.style]}
 				onBlur={this.makeDefault}
 				onFocus={this.makeActive}
-				underlineColorAndroid={PRIMARY_L45}
+				underlineColorAndroid={WHITE}
+				textAlign='center'
 			/>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
+	transparentTextInput : {
+		fontSize: 24,
+		borderWidth: 0,
+	},
 	textInput: {
 		height: 40,
 		borderWidth: 1,
