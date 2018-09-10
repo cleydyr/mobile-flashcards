@@ -15,13 +15,14 @@ import {
 import { createCard, getCards } from '../api/CardService';
 import ListItem from '../components/lexicon/core/ListItem';
 import { QUIZ } from './StackedViews';
+import { addCard } from '../actions';
+import { connect } from 'react-redux';
 
-export default class DeckDetail extends React.Component {
+class DeckDetail extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			modalVisible: false,
-			cards: [],
 			loading: false,
 		}
 	}
@@ -61,35 +62,28 @@ export default class DeckDetail extends React.Component {
 
 	startQuiz = () => {
 		const {navigation} = this.props;
-		const {cards} = this.state;
+		const {cards} = this.props;
 
 		navigation.navigate(QUIZ, cards);
 	}
 
 	saveNewCard = async ({question, answer}) => {
-		const {navigation} = this.props;
+		const {navigation, dispatchAddCard} = this.props;
 		const {id} = navigation.state.params;
 
 		this.showLoading();
 
-		await createCard({question, answer, deckId: id});
+		await dispatchAddCard({question, answer, deckId: id});
 
 		this.toogleModalVisibility();
-
-		const cards = await getCards(id);
-
-		this.setState({
-			cards,
-		});
 
 		this.hideLoading();
 	}
 
 	render() {
-		const {navigation} = this.props;
+		const {navigation, cards} = this.props;
 		const deck = navigation.state.params;
-		const {loading, modalVisible, cards} = this.state;
-		const goBack = () => navigation.goBack();
+		const {loading, modalVisible} = this.state;
 		const playButton = {
 			icon: 'play',
 			onPress: this.startQuiz,
@@ -147,3 +141,17 @@ export default class DeckDetail extends React.Component {
 		);
 	}
 }
+
+const mapStateToProps = ({cards}, {navigation}) => {
+	const {id} = navigation.state.params;
+
+	return {
+		cards: cards.filter(card => card.deckId === id),
+	};
+}
+
+const mapDispatchToProps = dispatch => ({
+	dispatchAddCard: (card) => dispatch(addCard(card)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckDetail);

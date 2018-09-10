@@ -11,19 +11,16 @@ import {
 	LIGHT,
 } from '../components/lexicon/foundation/Color';
 import {
-	createDeck,
-	getDecks,
-} from '../api/DeckService';
-import {
 	DECK_DETAIL,
  } from './StackedViews';
 import Header from '../components/lexicon/satellite/Header';
 import { FlatList } from 'react-native-gesture-handler';
 import ListItem from '../components/lexicon/core/ListItem';
-import { getCards } from '../api/CardService';
 import ActivityIndicatorModal from '../components/ActivityIndicatorModal';
+import { fetchCards, fetchDecks, addDeck } from '../actions';
+import { connect } from 'react-redux';
 
-export default class DecksView extends React.Component {
+class DecksView extends React.Component {
 	constructor() {
 		super();
 		this.state = {
@@ -33,21 +30,14 @@ export default class DecksView extends React.Component {
 		}
 	}
 
-	fetchDecksAndCardsCount = async () => {
-		const [decks, cards] = await Promise.all([
-			getDecks(),
-			getCards(),
-		]);
-
-		this.setState({
-			decks: decks.map(deck => ({...deck, cardsCount: cards.filter(card => card.deckId === deck.id).length})),
-		});
-	}
-
 	async componentDidMount() {
+		const {dispatchFetchCards, dispatchFetchDecks} = this.props;
+
 		this.showLoading();
 
-		this.fetchDecksAndCardsCount();
+		dispatchFetchCards();
+
+		dispatchFetchDecks();
 
 		this.hideLoading();
 	}
@@ -77,15 +67,22 @@ export default class DecksView extends React.Component {
 	}
 
 	saveNewDeck = async (name) => {
-		const {navigation} = this.props;
+		const {
+			navigation,
+			dispatchAddDeck,
+			dispatchFetchCards,
+			dispatchFetchDecks,
+		} = this.props;
 
 		this.showLoading();
 
-		const newDeck = await createDeck({name});
+		const newDeck = await dispatchAddDeck({name});
 
 		this.toogleModalVisibility();
 
-		this.fetchDecksAndCardsCount();
+		dispatchFetchCards();
+
+		dispatchFetchDecks();
 
 		navigation.navigate(DECK_DETAIL, newDeck);
 
@@ -106,7 +103,7 @@ export default class DecksView extends React.Component {
 		</Modal>
 	);
 
-	ContentView = ({decks, navigation}) => (
+	ContentView = ({decks, cards, navigation}) => (
 		<ScrollView>
 			<FlatList
 				data={decks}
@@ -119,7 +116,7 @@ export default class DecksView extends React.Component {
 							<ListItem
 								active={item.selected}
 								title={item.name}
-								description={`${item.cardsCount} cards`}
+								description={`${cards.filter(card => card.deckId === item.id).length} cards`}
 							/>
 						</TouchableOpacity>
 				}
@@ -129,8 +126,8 @@ export default class DecksView extends React.Component {
 	);
 
 	render() {
-		const {navigation} = this.props;
-		const {decks, modalVisible, loading} = this.state;
+		const {navigation, decks, cards} = this.props;
+		const {modalVisible, loading} = this.state;
 
 		return (
 			<React.Fragment>
@@ -145,6 +142,7 @@ export default class DecksView extends React.Component {
 				<this.ContentView
 					navigation={navigation}
 					decks={decks}
+					cards={cards}
 				/>
 
 				<this.NewDeckFormModal
@@ -168,3 +166,16 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
   },
 });
+
+const mapStateToProps = ({decks, cards}) => ({
+	decks,
+	cards,
+});
+
+const mapDispatchToProps = dispatch => ({
+	dispatchFetchCards: () => dispatch(fetchCards()),
+	dispatchFetchDecks: () => dispatch(fetchDecks()),
+	dispatchAddDeck: ({name}) => dispatch(addDeck({name})),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DecksView);
