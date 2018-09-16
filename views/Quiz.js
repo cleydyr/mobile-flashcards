@@ -100,7 +100,7 @@ export default class Quiz extends React.Component {
 							!this.isOngoingQuiz() &&
 								<React.Fragment>
 									<Button
-										type="primary"
+										type="secondary"
 										style={styles.button}
 										onPress={this.restartQuiz}
 									>
@@ -129,14 +129,14 @@ export default class Quiz extends React.Component {
 							this.isOngoingQuiz() && currentCardState === ANSWER &&
 								<React.Fragment>
 									<Button
-										type="primary"
+										type="success"
 										style={styles.button}
 										onPress={() => this.markCurrentCard({correct: true})}
 									>
 										<Text>Correct</Text>
 									</Button>
 									<Button
-										type="primary"
+										type="error"
 										style={styles.button}
 										onPress={() => this.markCurrentCard({correct: false})}
 									>

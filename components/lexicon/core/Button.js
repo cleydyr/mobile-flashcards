@@ -10,6 +10,12 @@ import {
 	PRIMARY,
 	MAIN_L65,
 	MAIN_L28_D5,
+	ERROR_L50,
+	ERROR_L28,
+	ERROR,
+	SUCCESS,
+	SUCCESS_L63,
+	SUCCESS_L35,
 } from '../foundation/Color';
 
 export default class Button extends React.Component {
@@ -62,4 +68,20 @@ const styles = StyleSheet.create({
 		color: MAIN_L28_D5,
 		fontWeight: '600',
 	},
+	success: {
+		backgroundColor: SUCCESS_L63,
+		borderColor: SUCCESS_L35,
+	},
+	successContent: {
+		color: SUCCESS,
+		fontWeight: '600',
+	},
+	error: {
+		backgroundColor: ERROR_L50,
+		borderColor: ERROR_L28,
+	},
+	errorContent: {
+		color: ERROR,
+		fontWeight: '600',
+	}
 });

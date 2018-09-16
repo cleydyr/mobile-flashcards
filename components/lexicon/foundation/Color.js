@@ -43,3 +43,21 @@ export const PRIMARY_10		= '##004AD7';
 export const PRIMARY_L23	= '#80ACFF';
 export const PRIMARY_L33	= '#B3CDFF';
 export const PRIMARY_L45	= '#F0F5FF';
+
+/*
+	Error	#DA1414	Text color in error messages.
+	Error Lighten 28%	#F48989	Border color in error status messages.
+	Error Lighten 50%	#FEEFEF	Background color in error status messages.
+*/
+export const ERROR			= '#DA1414';
+export const ERROR_L28	= '#F48989';
+export const ERROR_L50	= '#FEEFEF';
+
+/*
+	Success	#287D3C	Text color in success messages.
+	Success Lighten 35%	#5ACA75	Border color in success status messages.
+	Success Lighten 63%	#EDF9F0	Background color in success messages like alerts.
+*/
+export const SUCCESS			= '#287D3C';
+export const SUCCESS_L35	= '#5ACA75';
+export const SUCCESS_L63	= '#EDF9F0';
