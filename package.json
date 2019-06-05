@@ -19,7 +19,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "expo": "^27.0.1",
+    "expo": "^33.0.1",
     "react": "16.3.1",
     "react-native": "^0.59.9",
     "react-native-db-models": "^0.1.3",
